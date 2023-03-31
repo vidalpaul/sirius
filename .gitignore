@@ -1,0 +1,7 @@
+
+# Enviroment variables
+/.env
+/.local.env
+/.local.mine.env
+
+.vscode
