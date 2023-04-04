@@ -20,6 +20,8 @@ func main() {
 
 	server.AddRoute("/utils/address/{addr}/validate", handleAddressValidator(), http.MethodGet)
 
+	server.AddRoute("/utils/keypair/random", handleCreateRandomFullKeypair(), http.MethodGet)
+
 	/* server.AddRoute("/account/:account/balance", handleBalance(id), http.MethodGet)
 	server.AddRoute("/account/:account/history", handleHistory(id), http.MethodGet)
 	server.AddRoute("/tx/:tx/status", handleTxStatus(hash), http.MethodGet)
