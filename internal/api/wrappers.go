@@ -7,6 +7,11 @@ import (
 	"net/http"
 )
 
+type Response struct {
+	Status   string                   `json:"status,omitempty"`
+	Messages []map[string]interface{} `json:"messages,omitempty"`
+}
+
 // WrapEmptyJSON takes a byte stream and if there's no data
 // will allow inserting an empty JSON object. Useful
 // when API calls are omitempty
@@ -39,26 +44,12 @@ func JSONError(wr http.ResponseWriter, errorCode int, errorMessages ...string) {
 	})
 }
 
-func JSONMessage(wr http.ResponseWriter, code int, messages ...string) {
+func JSONMessage(wr http.ResponseWriter, code int, messages ...map[string]interface{}) {
 	wr.WriteHeader(code)
-	if len(messages) > 1 {
-		json.NewEncoder(wr).Encode(struct {
-			Status   string   `json:"status,omitempty"`
-			Messages []string `json:"messages,omitempty"`
-		}{
-			Status:   fmt.Sprintf("%d / %s", code, http.StatusText(code)),
-			Messages: messages,
-		})
-		return
-	}
-
-	json.NewEncoder(wr).Encode(struct {
-		Status  string `json:"status,omitempty"`
-		Message string `json:"message,omitempty"`
-	}{
-		Status:  fmt.Sprintf("%d / %s", code, http.StatusText(code)),
-		Message: messages[0],
-	})
+	var responseBody Response
+	responseBody.Status = fmt.Sprintf("%d / %s", code, http.StatusText(code))
+	responseBody.Messages = messages
+	json.NewEncoder(wr).Encode(responseBody)
 }
 
 func PrettyJSON(obj interface{}) []byte {

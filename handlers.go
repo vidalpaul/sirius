@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 	"sirius/internal/api"
-	"strconv"
 
 	"github.com/stellar/go/keypair"
 	"github.com/stellar/go/strkey"
@@ -11,7 +10,9 @@ import (
 
 func handleHealth() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		api.JSONMessage(w, http.StatusOK, "OK")
+		ms := make(map[string]interface{})
+		ms["status"] = "ok"
+		api.JSONMessage(w, http.StatusOK, ms)
 	})
 }
 
@@ -21,23 +22,26 @@ func handleAddressValidator() http.HandlerFunc {
 
 		v := strkey.IsValidEd25519PublicKey(addr)
 
-		api.JSONMessage(w, http.StatusOK, strconv.FormatBool(v))
+		ms := make(map[string]interface{})
+		ms["valid"] = v
+
+		api.JSONMessage(w, http.StatusOK, ms)
 	})
 }
 
 func handleCreateRandomFullKeypair() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		kp, e := keypair.Random()
+		ms := make(map[string]interface{})
 		if e != nil {
-			api.JSONMessage(w, http.StatusInternalServerError, e.Error())
+			ms["error"] = e.Error()
+			api.JSONMessage(w, http.StatusInternalServerError, ms)
 			return
 		}
 
-		pk := kp.Address()
-		sk := kp.Seed()
+		ms["pk"] = kp.Address()
+		ms["sk"] = kp.Seed()
 
-		api.JSONMessage(w, http.StatusOK,
-			pk, sk,
-		)
+		api.JSONMessage(w, http.StatusOK, ms)
 	})
 }
