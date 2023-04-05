@@ -24,8 +24,9 @@ func main() {
 
 	server.AddRoute("/fee/stats", handleGetFeeStats(), http.MethodGet)
 
-	/* server.AddRoute("/account/:account/balance", handleBalance(id), http.MethodGet)
-	server.AddRoute("/account/:account/history", handleHistory(id), http.MethodGet)
+	server.AddRoute("/account/{account}/balance", handleBalance(), http.MethodGet)
+
+	/* server.AddRoute("/account/:account/history", handleHistory(id), http.MethodGet)
 	server.AddRoute("/tx/:tx/status", handleTxStatus(hash), http.MethodGet)
 	*/
 	// Wait for CTRL-C

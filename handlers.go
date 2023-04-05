@@ -62,3 +62,21 @@ func handleGetFeeStats() http.HandlerFunc {
 		api.JSONMessage(w, http.StatusOK, ms)
 	})
 }
+
+func handleBalance() http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		id := api.GetParam(r, "account")
+
+		ms := make(map[string]interface{})
+
+		bs, e := horizonclient.DefaultPublicNetClient.AccountDetail(horizonclient.AccountRequest{AccountID: id})
+
+		if e != nil {
+			ms["error"] = e.Error()
+		}
+
+		ms["balances"] = bs.Balances
+
+		api.JSONMessage(w, http.StatusInternalServerError, ms)
+	})
+}
