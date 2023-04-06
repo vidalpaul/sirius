@@ -7,9 +7,9 @@ Sirius is an RESTful API that allows developers to integrate the Stellar blockch
 - Account creation
 - Account balance retrieval
 - Account transaction history retrieval
-- Account transaction submission
-- Account transaction status retrieval
-- Account transaction fee retrieval
+- Transaction submission
+- Transaction status retrieval
+- Transaction fee retrieval
 - Address validation
 
 ## Table of Contents
@@ -25,7 +25,13 @@ Sirius is an RESTful API that allows developers to integrate the Stellar blockch
 1. Clone the repo
 
 ```sh
-git clone
+git clone https://github.com/vidalpaul/sirius.git
+```
+
+or (using GitHub CLI)
+
+```sh
+gh repo clone vidalpaul/sirius
 ```
 
 2. Install Go dependencies
@@ -34,10 +40,16 @@ git clone
 go mod download
 ```
 
-3. Run the server
+3. Build the server
 
 ```sh
-go run main.go
+go build
+```
+
+4. Run the server
+
+```sh
+go run .
 ```
 
 ## Usage
@@ -102,7 +114,7 @@ go run main.go
 
 ```
 
-### Account Transaction Submission
+### Transaction Submission
 
 #### Request
 
@@ -126,7 +138,7 @@ go run main.go
 }
 ```
 
-### Account Transaction Status Retrieval
+### Transaction Status Retrieval
 
 #### Request
 
@@ -148,7 +160,7 @@ go run main.go
 }
 ```
 
-### Account Transaction Fee Retrieval
+### Transaction Fee Retrieval
 
 #### Request
 
