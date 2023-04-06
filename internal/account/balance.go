@@ -13,7 +13,7 @@ type Balance struct {
 }
 
 func GetBalance(accountId string, assetCode string) (Balance, error) {
-	log.Printf("[GetBalance]")
+	log.Printf("[GetBalance] accountId: %s, assetCode: %s", accountId, assetCode)
 
 	a, e := horizonclient.DefaultPublicNetClient.AccountDetail(horizonclient.AccountRequest{AccountID: accountId})
 
